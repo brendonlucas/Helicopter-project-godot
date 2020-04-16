@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Veiculos/Helicoptero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Veiculos/Helicoptero.gd" type="Script" id=2]
+[ext_resource path="res://Veiculos/Helicoptero_p2.gd" type="Script" id=3]
+[ext_resource path="res://mapas/lanca_missil.gd" type="Script" id=4]
+[ext_resource path="res://mapas/weapon_gun.gd" type="Script" id=5]
+[ext_resource path="res://audio/missel.ogg" type="AudioStream" id=6]
+[ext_resource path="res://audio/gun.ogg" type="AudioStream" id=7]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 2.67549, 1.86146, 5.25799 )
+
+[node name="heli" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.321, 0 )
+script = ExtResource( 2 )
+
+[node name="CameraGimbal" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355678, -0.56156 )
+
+[node name="InnerGimbal" type="Spatial" parent="CameraGimbal"]
+
+[node name="Camera" type="Camera" parent="CameraGimbal/InnerGimbal"]
+transform = Transform( -0.5, 4.61738e-08, -1.56241e-07, 0, 0.479499, 0.141706, 1.62921e-07, 0.141706, -0.479499, 0, 6.67935, -13.029 )
+near = 0.01
+far = 2000.0
+
+[node name="Audiomissil" type="AudioStreamPlayer3D" parent="CameraGimbal/InnerGimbal"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.13262, 1.30943, 0 )
+stream = ExtResource( 6 )
+unit_size = 100.0
+max_db = 6.0
+
+[node name="Audiogun" type="AudioStreamPlayer3D" parent="CameraGimbal/InnerGimbal"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.21114, 1.14869, 0 )
+stream = ExtResource( 7 )
+attenuation_model = 3
+unit_db = 80.0
+unit_size = 100.0
+max_db = 6.0
+
+[node name="ray-cast-missil" type="Spatial" parent="CameraGimbal"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.94952, 0 )
+
+[node name="RayCast" type="RayCast" parent="CameraGimbal/ray-cast-missil"]
+cast_to = Vector3( 0, 0, 30 )
+
+[node name="Helicoptero" parent="." instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93973, -2.32365 )
+shape = SubResource( 1 )
+
+[node name="lanca_missil" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.18649, 1.04569, -0.562416 )
+script = ExtResource( 4 )
+
+[node name="Timer" type="Timer" parent="lanca_missil"]
+one_shot = true
+
+[node name="weapon_gun" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.22214, 1.05776, -0.503702 )
+script = ExtResource( 5 )
+
+[node name="Timer" type="Timer" parent="weapon_gun"]
+wait_time = 0.01
+one_shot = true

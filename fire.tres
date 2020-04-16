@@ -1,0 +1,11 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://testuras/J8PL2ps.png" type="Texture" id=1]
+
+[resource]
+flags_unshaded = true
+params_blend_mode = 1
+params_grow = true
+params_grow_amount = 0.0
+albedo_color = Color( 1, 0.913725, 0, 1 )
+albedo_texture = ExtResource( 1 )
